@@ -20,14 +20,14 @@ case $ans in
 
 zenity --question --text "Do you want upload the screenshot?"
 if [ "$?" = "0" ]; then
-scrot -s '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zimgur ~/Screenshots/$f'
+scrot -s '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zsftp ~/Screenshots/$f'
 else
 scrot -s '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/'
 fi;;
 
 "Now" ) zenity --question --text "Do you want upload the screenshot?"
 if [ "$?" = "0" ]; then
-scrot -d 1 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zimgur ~/Screenshots/$f'
+scrot -d 1 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zsftp ~/Screenshots/$f'
 else
 scrot -d 1 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/'
 fi;;
@@ -35,7 +35,7 @@ fi;;
 "With delay" ) d=$(zenity --entry --title="With delay" --text="Enter seconds of delay:" --entry-text "5")
 zenity --question --text "Do you want upload the screenshot?"
 if [ "$?" = "0" ]; then
-scrot -d "$d" '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zimgur ~/Screenshots/$f'
+scrot -d "$d" '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zsftp ~/Screenshots/$f'
 else
 scrot -d "$d" '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/'
 fi;;
