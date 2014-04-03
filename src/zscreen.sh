@@ -22,7 +22,7 @@ if [[ "Window/Selected Area" == $ans ]]; then
     scrot_flags=-s
 fi
 
-scrot $scrot_flags $IMG_FMT -e 'sleep 1 & mv $f ~/Screenshots/ & zsftp ~/Screenshots/$f'
+scrot $scrot_flags $IMG_FMT -e 'mv $f ~/Screenshots/ & zsftp ~/Screenshots/$f'
 
 #case $ans in
 #"Window/Selected Area" )
