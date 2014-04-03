@@ -26,6 +26,10 @@ source $HOME/.zscreen/settings
 scrot_flags=
 if [[ "Window/Selected Area" == $ans ]]; then
     scrot_flags=-s
+elif [[ "Fullscreen" == $ans ]]; then
+    scrot_flags=-m
+else
+    return 2
 fi
 
 scrot $scrot_flags $IMG_FMT -e 'mv $f ~/Screenshots/ & zsftp ~/Screenshots/$f'
