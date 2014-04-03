@@ -13,7 +13,13 @@ if [ ! -d "Screenshots" ]
 then mkdir ~/Screenshots
 fi
 
-ans=$(zenity --width 350 --height 220 --list --text "Screenshot mode" --radiolist --column "Pick" --column "Options" TRUE "Window/Selected Area" FALSE "Fullscreen");
+if [[ $1 == "-f" ]]; then
+    ans="Fullscreen"
+elif [[ $1 == "-w" ]]; then
+    ans="Window/Selected Area"
+else
+    ans=$(zenity --width 350 --height 220 --list --text "Screenshot mode" --radiolist --column "Pick" --column "Options" TRUE "Window/Selected Area" FALSE "Fullscreen");
+fi
 
 source $HOME/.zscreen/settings
 
