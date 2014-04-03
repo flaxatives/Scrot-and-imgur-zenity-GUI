@@ -27,12 +27,12 @@ source $HOME/.zscreen/settings
 
 # check arguments
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
-usage
-exit 0
+    usage
+    exit 0
 elif [ $# == 0 ]; then
-echo "No file specified" >&2
-usage
-exit 16
+    echo "No file specified" >&2
+    usage
+    exit 16
 fi
 
 # check curl is available
@@ -46,39 +46,39 @@ errors=false
 
 # loop through arguments
 while [ $# -gt 0 ]; do
-file="$1"
-shift
+    file="$1"
+    shift
 
-# check file exists
-#if [ ! -f "$file" ]; then
-#zenity --info --text "file '$file' doesn't exist, skipping" >&2
-#errors=true
-#continue
-#fi
+    # check file exists
+    #if [ ! -f "$file" ]; then
+    #zenity --info --text "file '$file' doesn't exist, skipping" >&2
+    #errors=true
+    #continue
+    #fi
 
-# upload the image
-response=$($HOME/.zscreen/upload_sftp.sh $file)
-# the "Expect: " header is to get around a problem when using this through
-# the Squid proxy. Not sure if it's a Squid bug or what.
-if [ $? -ne 0 ]; then
-zenity --info --text "Upload failed" >&2
-errors=true
-continue
-fi
+    # upload the image
+    response=$($HOME/.zscreen/upload_sftp.sh $file)
+    # the "Expect: " header is to get around a problem when using this through
+    # the Squid proxy. Not sure if it's a Squid bug or what.
+    if [ $? -ne 0 ]; then
+        zenity --info --text "Upload failed" >&2
+        errors=true
+        continue
+    fi
 
 
-# append the URL to a string so we can put them all on the clipboard later
-clip="$BASEURL$(basename $file)"
+    # append the URL to a string so we can put them all on the clipboard later
+    clip="$BASEURL$(basename $file)"
 done
 
 
 # put the URLs on the clipboard if we have xsel or xclip
 if [ $DISPLAY ]; then
-{ type xsel >/dev/null 2>/dev/null && echo -n $clip | xsel; } \
-|| { type xclip >/dev/null 2>/dev/null && echo -n $clip | xclip; } \
-|| echo "Haven't copied to the clipboard: no xsel or xclip" >&2
+    { type xsel >/dev/null 2>/dev/null && echo -n $clip | xsel; } \
+        || { type xclip >/dev/null 2>/dev/null && echo -n $clip | xclip; } \
+        || echo "Haven't copied to the clipboard: no xsel or xclip" >&2
 else
-echo "Haven't copied to the clipboard: no \$DISPLAY" >&2
+    echo "Haven't copied to the clipboard: no \$DISPLAY" >&2
 fi
 
 if $errors; then
