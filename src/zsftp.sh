@@ -71,6 +71,7 @@ fi
 clip="$BASEURL$(basename $file)"
 done
 
+
 # put the URLs on the clipboard if we have xsel or xclip
 if [ $DISPLAY ]; then
 { type xsel >/dev/null 2>/dev/null && echo -n $clip | xsel; } \
@@ -81,5 +82,8 @@ echo "Haven't copied to the clipboard: no \$DISPLAY" >&2
 fi
 
 if $errors; then
-exit 1
+    exit 1
+else
+    # open url
+    xdg-open $clip
 fi
