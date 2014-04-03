@@ -1,6 +1,8 @@
 #!/bin/bash
 
-sftp sftpvilis <<EOF
+source $HOME/.zscreen/settings
+
+sftp $SFTP_FLAGS $SFTP_HOST <<EOF
 put $1
 bye
 EOF

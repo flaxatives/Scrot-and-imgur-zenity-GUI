@@ -57,7 +57,7 @@ shift
 #fi
 
 # upload the image
-response=$($HOME/.zscreen/sftp.sh $file)
+response=$($HOME/.zscreen/upload_sftp.sh $file)
 # the "Expect: " header is to get around a problem when using this through
 # the Squid proxy. Not sure if it's a Squid bug or what.
 if [ $? -ne 0 ]; then
