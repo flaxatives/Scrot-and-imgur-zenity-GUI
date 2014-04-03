@@ -20,10 +20,10 @@ echo "If xsel or xclip is available, the URLs are put on the X selection for" >&
 echo "easy pasting." >&2
 }
 
-# vars.sh much set variables
+# settings much set variables
 # base url needs backslash
 # BASEURL=http://example.com/screenshots/   
-source $HOME/.zscreen/vars.sh
+source $HOME/.zscreen/settings
 
 # check arguments
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
