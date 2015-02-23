@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # zscreen script by Christian Zucchelli (@Chris_Zeta) <thewebcha@gmail.com>
+# modified by Marc Evangelista for use with sftp
 
 if [ ! -d "$HOME/.zscreen" ]
 then
@@ -12,32 +13,32 @@ if [ ! -d "Screenshots" ]
 then mkdir ~/Screenshots
 fi
 
-ans=$(zenity --width 350 --height 220 --list --text "Screenshot mode" --radiolist --column "Pick" --column "Options" TRUE "Selected Area... (click & drag mouse)" FALSE "Now" FALSE "With delay");
-
-case $ans in
-
-"Selected Area... (click & drag mouse)" )
-
-zenity --question --text "Do you want upload the screenshot?"
-if [ "$?" = "0" ]; then
-scrot -s '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zimgur ~/Screenshots/$f'
+if [[ $1 == "-f" ]]; then
+    ans="Fullscreen"
+elif [[ $1 == "-w" ]]; then
+    ans="Window/Selected Area"
 else
-scrot -s '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/'
-fi;;
+    ans=$(zenity --width 350 --height 220 --list --text "Screenshot mode" --radiolist --column "Pick" --column "Options" TRUE "Window/Selected Area" FALSE "Fullscreen");
+fi
 
-"Now" ) zenity --question --text "Do you want upload the screenshot?"
-if [ "$?" = "0" ]; then
-scrot -d 1 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zimgur ~/Screenshots/$f'
+source $HOME/.zscreen/settings
+
+scrot_flags=
+if [[ "Window/Selected Area" == $ans ]]; then
+    scrot_flags=-s
+elif [[ "Fullscreen" == $ans ]]; then
+    scrot_flags=-m
 else
-scrot -d 1 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/'
-fi;;
+    return 2
+fi
 
-"With delay" ) d=$(zenity --entry --title="With delay" --text="Enter seconds of delay:" --entry-text "5")
-zenity --question --text "Do you want upload the screenshot?"
-if [ "$?" = "0" ]; then
-scrot -d "$d" '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/ & zimgur ~/Screenshots/$f'
-else
-scrot -d "$d" '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'sleep 2 & mv $f ~/Screenshots/'
-fi;;
+scrot $scrot_flags $IMG_FMT -e 'mv $f ~/Screenshots/ & zsftp ~/Screenshots/$f'
 
-esac
+#case $ans in
+#"Window/Selected Area" )
+#    scrot_flags=-s
+#    ;;
+#
+#"Fullscreen" ) 
+#    ;;
+#esac
