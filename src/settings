@@ -1,0 +1,5 @@
+#!/bin/bash
+SFTP_HOST=yoursite.com
+SFTP_FLAGS="-example flags -for sftpscript"
+BASEURL=http://yoursite.com/screens/
+IMG_FMT='%Y-%m-%d--%s_$wx$h_scrot.png' 
